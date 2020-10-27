@@ -1,24 +1,24 @@
 const env = require('dotenv').config();
 const express = require('express');
 const app = express();
+const api = require('./routes/index')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const morgan = require('morgan')
 
-const productRoutes = require('../src/routes/products')
-
 mongoose.connect(process.env.DATABASE_URL, {
   dbName: 'jdlt-api',
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
   .then(() => console.log("db is connected"))
   .catch((err) => console.log(err))
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-
-app.use('/products', productRoutes)
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api', api)
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
@@ -38,3 +38,5 @@ app.use((req, res, next) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`app listening on port ${port}`))
+
+module.exports = app;
