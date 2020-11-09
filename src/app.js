@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan')
 
 mongoose.connect(process.env.DATABASE_URL, {
-  dbName: 'jdlt-api',
+  dbName: 'JDLT',
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
@@ -16,6 +16,7 @@ mongoose.connect(process.env.DATABASE_URL, {
   .catch((err) => console.log(err))
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', api)

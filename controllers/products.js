@@ -13,7 +13,8 @@ async function addProduct(req, res, next) {
   const product = {
     supplier: req.body.supplier,
     name: req.body.name,
-    price: req.body.price
+    price: req.body.price,
+    productImage: req.file.path
   }
   try {
     const newProduct = await Product.create(product);
